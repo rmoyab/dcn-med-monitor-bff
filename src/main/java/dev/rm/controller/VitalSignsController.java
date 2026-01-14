@@ -9,48 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.rm.model.Alert;
-import dev.rm.model.Patient;
 import dev.rm.model.VitalSign;
-import dev.rm.service.AlertService;
-import dev.rm.service.PatientService;
 import dev.rm.service.VitalSignService;
+import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api")
-public class Controller {
+public class VitalSignsController {
 
-    private final PatientService patientService;
-    private final AlertService alertService;
     private final VitalSignService vitalSignService;
-
-    public Controller(PatientService patientService, AlertService alertService, VitalSignService vitalSignService) {
-        this.patientService = patientService;
-        this.alertService = alertService;
-        this.vitalSignService = vitalSignService;
-    }
-
-    @GetMapping("/patients")
-    public ResponseEntity<List<Patient>> getAllPatients() {
-        List<Patient> patients = patientService.getAllPatients();
-        return new ResponseEntity<>(patients, HttpStatus.OK);
-    }
-
-    @GetMapping("/patients/{patientId}")
-    public ResponseEntity<Patient> getUserById(@PathVariable Long patientId) {
-        Patient patient = patientService.getPatientById(patientId);
-        return new ResponseEntity<>(patient, HttpStatus.OK);
-    }
-
-    @GetMapping("/alerts")
-    public ResponseEntity<List<Alert>> getAlerts() {
-        List<Alert> alerts = alertService.getAlerts();
-        return new ResponseEntity<>(alerts, HttpStatus.OK);
-
-    }
 
     @PostMapping("/vital-signs")
     public ResponseEntity<VitalSign> createVitalSign(@RequestBody VitalSign vitalSign) {
